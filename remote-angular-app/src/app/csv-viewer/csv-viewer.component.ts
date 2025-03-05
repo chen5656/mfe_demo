@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as Papa from 'papaparse';
+import { createApplication } from '@angular/platform-browser';
+import 'zone.js';
 
 interface CsvData {
   data: string[][];
@@ -20,7 +22,7 @@ export class CsvViewerComponent {
   csvData: CsvData | null = null;
   fileName: string = '';
 
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
 
   openFileSelector(): void {
     this.fileInput.nativeElement.click();
@@ -36,25 +38,39 @@ export class CsvViewerComponent {
 
     Papa.parse(file, {
       complete: (result) => {
-        // Extract headers from the first row
-        const headers = result.data[0] as string[];
-        // Remove the header row from the data
-        const data = result.data.slice(1) as string[][];
-        
-        this.csvData = { data, headers };
-        
-        // Send the CSV data to the parent window
-        window.parent.postMessage({
-          type: 'csvData',
-          payload: {
-            data: this.csvData.data,
-            headers: this.csvData.headers,
-            fileName: this.fileName,
-            source: 'angular'
-          }
-        }, '*');  // In production, replace '*' with your parent window's origin
+        this.ngZone.run(() => {
+          const headers = result.data[0] as string[];
+          const data = result.data.slice(1) as string[][];
+          
+          this.csvData = { data, headers };
+          
+          window.dispatchEvent(new CustomEvent('csvData', { 
+            detail: {
+              data: this.csvData.data,
+              headers: this.csvData.headers,
+              fileName: this.fileName,
+              source: 'angular'
+            }
+          }));
+        });
       },
       header: false,
     });
   }
 }
+
+// Add static mount method for Module Federation
+export const mount = async (element: HTMLElement) => {
+  const app = await createApplication({
+    providers: []
+  });
+  
+  const componentRef = app.bootstrap(CsvViewerComponent, element);
+  
+  return () => {
+    componentRef.destroy();
+    app.destroy();
+  };
+};
+
+export default { mount };

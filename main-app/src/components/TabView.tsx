@@ -14,27 +14,20 @@ const TabView = () => {
   const [angularCsvData, setAngularCsvData] = useState<CsvDataType | null>(null);
 
   useEffect(() => {
-    // Listen for messages from Angular iframe
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === 'csvData') {
-        setAngularCsvData(event.data.payload);
+    const handleCsvData = (event: CustomEvent) => {
+      const { source, ...data } = event.detail;
+      if (source === 'react') {
+        setReactCsvData(data);
+      } else if (source === 'angular') {
+        setAngularCsvData(data);
       }
     };
 
-    window.addEventListener('message', handleMessage);
-
-    // Poll for React data
-    const interval = setInterval(() => {
-      // @ts-ignore - This is for Module Federation communication
-      if (window.reactCsvData) {
-        // @ts-ignore
-        setReactCsvData(window.reactCsvData);
-      }
-    }, 1000);
+    // 统一监听 CustomEvent
+    window.addEventListener('csvData', handleCsvData as EventListener);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
-      clearInterval(interval);
+      window.removeEventListener('csvData', handleCsvData as EventListener);
     };
   }, []);
 
