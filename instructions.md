@@ -18,3 +18,19 @@ cd ../remote-angular-app && npm install @angular-architects/module-federation
 cd ../main-app && npm install papaparse @types/papaparse
 cd ../remote-react-app && npm install papaparse @types/papaparse
 cd ../remote-angular-app && npm install papaparse @types/papaparse
+
+
+6. Configure the Module Federation for each application.
+    Update the vite.config.ts for remote react app
+    Update the vite.config.ts for main app
+
+?? what to do with angular
+
+7. Work on each app.
+    Main app: add TabViewer.
+    Remote react app: add CsvViewer
+    Remote Angular app: 
+        cd ../remote-angular-app && ng generate component csv-viewer
+        Update csv-viewer.component.html, csv-viewer.component.ts and csv-viewer.component.scss
+        Update 
+        

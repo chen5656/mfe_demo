@@ -1,0 +1,33 @@
+<div class="csv-viewer">
+    <h2>Angular CSV Viewer</h2>
+    <div class="file-upload">
+      <input
+        type="file"
+        accept=".csv"
+        (change)="handleFileUpload($event)"
+        #fileInput
+        style="display: none"
+      />
+      <button (click)="openFileSelector()">
+        Select CSV File
+      </button>
+      <span class="file-name" *ngIf="fileName">{{ fileName }}</span>
+    </div>
+  
+    <div class="csv-preview" *ngIf="csvData">
+      <h3>Preview:</h3>
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let header of csvData.headers; let i = index">{{ header }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of csvData.data.slice(0, 5); let rowIndex = index">
+            <td *ngFor="let cell of row; let cellIndex = index">{{ cell }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="csvData.data.length > 5">Showing 5 of {{ csvData.data.length }} rows</p>
+    </div>
+  </div>
