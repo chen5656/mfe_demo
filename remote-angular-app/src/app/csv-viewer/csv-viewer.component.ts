@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as Papa from 'papaparse';
 import { createApplication } from '@angular/platform-browser';
@@ -22,7 +22,7 @@ export class CsvViewerComponent {
   csvData: CsvData | null = null;
   fileName: string = '';
 
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
 
   openFileSelector(): void {
     this.fileInput.nativeElement.click();
@@ -38,20 +38,21 @@ export class CsvViewerComponent {
 
     Papa.parse(file, {
       complete: (result) => {
-        const headers = result.data[0] as string[];
-        const data = result.data.slice(1) as string[][];
-        
-        this.csvData = { data, headers };
-        
-        // 使用 dispatchEvent 替代 postMessage
-        window.dispatchEvent(new CustomEvent('csvData', { 
-          detail: {
-            data: this.csvData.data,
-            headers: this.csvData.headers,
-            fileName: this.fileName,
-            source: 'angular'
-          }
-        }));
+        this.ngZone.run(() => {
+          const headers = result.data[0] as string[];
+          const data = result.data.slice(1) as string[][];
+          
+          this.csvData = { data, headers };
+          
+          window.dispatchEvent(new CustomEvent('csvData', { 
+            detail: {
+              data: this.csvData.data,
+              headers: this.csvData.headers,
+              fileName: this.fileName,
+              source: 'angular'
+            }
+          }));
+        });
       },
       header: false,
     });
