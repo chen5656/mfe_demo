@@ -12,7 +12,6 @@ export function wrapAngularComponent(importFn: () => Promise<any>) {
           let cleanup: (() => void) | undefined;
           
           if (ref.current) {
-            debugger
             Component.mount(ref.current).then(unmount => {
               cleanup = unmount;
             });

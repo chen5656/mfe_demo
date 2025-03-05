@@ -38,23 +38,20 @@ export class CsvViewerComponent {
 
     Papa.parse(file, {
       complete: (result) => {
-        // Extract headers from the first row
         const headers = result.data[0] as string[];
-        // Remove the header row from the data
         const data = result.data.slice(1) as string[][];
         
         this.csvData = { data, headers };
         
-        // Send the CSV data to the parent window
-        window.parent.postMessage({
-          type: 'csvData',
-          payload: {
+        // 使用 dispatchEvent 替代 postMessage
+        window.dispatchEvent(new CustomEvent('csvData', { 
+          detail: {
             data: this.csvData.data,
             headers: this.csvData.headers,
             fileName: this.fileName,
             source: 'angular'
           }
-        }, '*');  // In production, replace '*' with your parent window's origin
+        }));
       },
       header: false,
     });

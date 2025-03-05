@@ -35,12 +35,14 @@ const CsvViewer = () => {
   useEffect(() => {
     if (csvData) {
       // @ts-ignore - This is for Module Federation communication
-      window.reactCsvData = {
-        data: csvData.data,
-        headers: csvData.headers,
-        fileName: fileName,
-        source: 'react'
-      };
+      window.dispatchEvent(new CustomEvent('csvData', { 
+        detail: {
+          data: csvData.data,
+          headers: csvData.headers,
+          fileName: fileName,
+          source: 'react'
+        }
+      }));
     }
   }, [csvData, fileName]);
 
