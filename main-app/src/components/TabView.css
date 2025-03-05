@@ -20,6 +20,7 @@
   font-size: 16px;
   border-bottom: 3px solid transparent;
   transition: all 0.3s;
+  color: #333;
 }
 
 .tab-button:hover {
@@ -28,6 +29,7 @@
 
 .tab-button.active {
   border-bottom: 3px solid #0066cc;
+  color: #0066cc;
   font-weight: bold;
 }
 
@@ -36,16 +38,7 @@
   background-color: #f9f9f9;
   border-radius: 5px;
   min-height: 300px;
-}
-
-.csv-table-container {
-  overflow-x: auto;
-}
-
-.csv-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+  color: #333; /* Add contrast for better readability */
 }
 
 .csv-table th,
@@ -53,6 +46,7 @@
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  color: #333; /* Add contrast for better readability */
 }
 
 .csv-table th {
