@@ -65,9 +65,9 @@ const CsvViewer = () => {
       </div>
 
       {csvData && (
-        <div className={styles.csvPreview}>
-          <h3 className={styles.previewTitle}>Preview:</h3>
-          <table className={styles.table}>
+        <div className="csv-preview">
+          {/* <h3>Preview:</h3>
+          <table>
             <thead>
               <tr>
                 {csvData.headers.map((header, index) => (
@@ -84,11 +84,9 @@ const CsvViewer = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
           {csvData.data.length > 5 && (
-            <p className={styles.rowCount}>
-              Showing 5 of {csvData.data.length} rows
-            </p>
+            <p>CSV data length: {csvData.data.length} </p>
           )}
         </div>
       )}

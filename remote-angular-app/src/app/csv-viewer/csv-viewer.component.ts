@@ -43,13 +43,16 @@ export class CsvViewerComponent {
         
         this.csvData = { data, headers };
         
-        // Expose the CSV data to the parent application
-        (window as any).angularCsvData = {
-          data: this.csvData.data,
-          headers: this.csvData.headers,
-          fileName: this.fileName,
-          source: 'angular'
-        };
+        // Send the CSV data to the parent window
+        window.parent.postMessage({
+          type: 'csvData',
+          payload: {
+            data: this.csvData.data,
+            headers: this.csvData.headers,
+            fileName: this.fileName,
+            source: 'angular'
+          }
+        }, '*');  // In production, replace '*' with your parent window's origin
       },
       header: false,
     });
