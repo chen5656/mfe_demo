@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
+import styles from './CsvViewer.module.css';
 
 interface CsvData {
   data: string[][];
@@ -44,9 +45,9 @@ const CsvViewer = () => {
   }, [csvData, fileName]);
 
   return (
-    <div className="csv-viewer">
-      <h2>React CSV Viewer</h2>
-      <div className="file-upload">
+    <div className={styles.csvViewer}>
+      <h2 className={styles.title}>React CSV Viewer</h2>
+      <div className={styles.fileUpload}>
         <input
           type="file"
           accept=".csv"
@@ -54,16 +55,19 @@ const CsvViewer = () => {
           ref={fileInputRef}
           style={{ display: 'none' }}
         />
-        <button onClick={() => fileInputRef.current?.click()}>
+        <button 
+          className={styles.uploadButton}
+          onClick={() => fileInputRef.current?.click()}
+        >
           Select CSV File
         </button>
-        {fileName && <span className="file-name">{fileName}</span>}
+        {fileName && <span className={styles.fileName}>{fileName}</span>}
       </div>
 
       {csvData && (
-        <div className="csv-preview">
-          <h3>Preview:</h3>
-          <table>
+        <div className={styles.csvPreview}>
+          <h3 className={styles.previewTitle}>Preview:</h3>
+          <table className={styles.table}>
             <thead>
               <tr>
                 {csvData.headers.map((header, index) => (
@@ -82,7 +86,9 @@ const CsvViewer = () => {
             </tbody>
           </table>
           {csvData.data.length > 5 && (
-            <p>Showing 5 of {csvData.data.length} rows</p>
+            <p className={styles.rowCount}>
+              Showing 5 of {csvData.data.length} rows
+            </p>
           )}
         </div>
       )}
