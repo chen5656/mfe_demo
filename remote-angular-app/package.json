@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@angular-architects/module-federation": "^19.0.3",
+    "@types/papaparse": "^5.3.15",
+    "papaparse": "^5.5.2"
+  }
+}
