@@ -10,7 +10,6 @@ export default defineConfig({
       name: 'main-app',
       remotes: {
         'remote-react-app': 'http://localhost:5001/assets/remoteEntry.js',
-        'remote-angular-app': 'http://localhost:4200/remoteEntry.js',
       },
       shared: ['react', 'react-dom'],
     }),
@@ -23,5 +22,10 @@ export default defineConfig({
   },
   server: {
     port: 5000,
+    cors: true,
+    hmr: {
+      clientPort: 5000,
+      host: 'localhost',
+    },
   },
 })

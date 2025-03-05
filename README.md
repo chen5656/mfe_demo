@@ -38,6 +38,7 @@ You need to start all three applications to see the full demo:
 ```bash
 cd remote-react-app
 npm install
+npm run build  # Important: Build first for Module Federation to work
 npm run dev
 ```
 
@@ -48,6 +49,7 @@ The React remote app will be available at http://localhost:5001
 ```bash
 cd remote-angular-app
 npm install
+npm run build  # Important: Build first for Module Federation to work
 npm start
 ```
 
@@ -62,6 +64,24 @@ npm run dev
 ```
 
 The main app will be available at http://localhost:5000
+
+## Troubleshooting
+
+If you encounter issues with Module Federation:
+
+1. Make sure all three applications are running
+2. Ensure you've built the remote apps before starting them
+3. Clear your browser cache or use incognito mode
+4. Check the browser console for specific error messages
+
+## Sample Data
+
+For testing purposes, two sample CSV files are provided:
+
+1. `sample-data.csv` - Contains sample user data
+2. `sample-products.csv` - Contains sample product data
+
+You can use these files to test the CSV upload functionality in both remote applications.
 
 ## How It Works
 
@@ -88,12 +108,3 @@ The main app will be available at http://localhost:5000
 - [x] Implement Module Federation
 - [x] Implement CSV file processing
 - [x] Implement data display in Main App
-
-## Sample Data
-
-For testing purposes, two sample CSV files are provided:
-
-1. `sample-data.csv` - Contains sample user data
-2. `sample-products.csv` - Contains sample product data
-
-You can use these files to test the CSV upload functionality in both remote applications 

@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import * as Papa from 'papaparse';
 
 interface CsvData {
@@ -9,7 +10,9 @@ interface CsvData {
 @Component({
   selector: 'app-csv-viewer',
   templateUrl: './csv-viewer.component.html',
-  styleUrls: ['./csv-viewer.component.scss']
+  styleUrls: ['./csv-viewer.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CsvViewerComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;

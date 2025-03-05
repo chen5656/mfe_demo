@@ -20,17 +20,40 @@ cd ../remote-react-app && npm install papaparse @types/papaparse
 cd ../remote-angular-app && npm install papaparse @types/papaparse
 
 
-6. Configure the Module Federation for each application.
-    Update the vite.config.ts for remote react app
-    Update the vite.config.ts for main app
-
-?? what to do with angular
-
-7. Work on each app.
+6. Work on each app.
     Main app: add TabViewer.
     Remote react app: add CsvViewer
     Remote Angular app: 
         cd ../remote-angular-app && ng generate component csv-viewer
         Update csv-viewer.component.html, csv-viewer.component.ts and csv-viewer.component.scss
         Update 
-        
+
+7. Configure the Module Federation for each application.
+    Update the vite.config.ts for remote react app
+    Update the vite.config.ts for main app
+    cd ../remote-angular-app && ng add @angular-architects/module-federation --project remote-angular-app --port 4200
+    (using webpack)
+    Configure the webpack.config.js file for the Angular app to expose our CSV viewer component:
+
+8. fix the linter errors by installing the necessary type definitions:
+cd ../remote-react-app && npm install -D @types/node
+cd ../main-app && npm install -D @types/node
+
+
+9. To run the demo:
+To get the micro frontend demo working properly, please follow these steps:
+For the Remote React App:
+   cd remote-react-app
+   npm install
+   npm run build  # Important: Build first
+   npm run dev
+For the Remote Angular App:
+   cd remote-angular-app
+   npm install
+   npm run build  # Important: Build first
+   npm start
+For the Main App:
+   cd main-app
+   npm install
+   npm run dev
+
