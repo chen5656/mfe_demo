@@ -12,34 +12,21 @@ const TabView = () => {
   const [activeTab, setActiveTab] = useState<string>('react');
   const [reactCsvData, setReactCsvData] = useState<CsvDataType | null>(null);
   const [angularCsvData, setAngularCsvData] = useState<CsvDataType | null>(null);
-  const [pollingCount, setPollingCount] = useState<number>(0);
 
   useEffect(() => {
     // Poll for data from remote apps
     const interval = setInterval(() => {
-      // Check for React data
-      try {
-        // @ts-ignore - This is for Module Federation communication
-        if (window.reactCsvData) {
-          // @ts-ignore
-          setReactCsvData(window.reactCsvData);
-        }
-      } catch (error) {
-        console.error('Error accessing React CSV data:', error);
+      // @ts-ignore - This is for Module Federation communication
+      if (window.reactCsvData) {
+        // @ts-ignore
+        setReactCsvData(window.reactCsvData);
       }
       
-      // Check for Angular data
-      try {
-        // @ts-ignore - This is for Module Federation communication
-        if (window.angularCsvData) {
-          // @ts-ignore
-          setAngularCsvData(window.angularCsvData);
-        }
-      } catch (error) {
-        console.error('Error accessing Angular CSV data:', error);
+      // @ts-ignore - This is for Module Federation communication
+      if (window.angularCsvData) {
+        // @ts-ignore
+        setAngularCsvData(window.angularCsvData);
       }
-
-      setPollingCount(prev => prev + 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -47,12 +34,7 @@ const TabView = () => {
 
   const renderCsvTable = (csvData: CsvDataType | null) => {
     if (!csvData) {
-      return (
-        <div className="no-data-message">
-          <p>No data available. Please upload a CSV file in the remote app.</p>
-          <p className="polling-info">Polling for data... ({pollingCount})</p>
-        </div>
-      );
+      return <p>No data available. Please upload a CSV file in the remote app.</p>;
     }
 
     return (

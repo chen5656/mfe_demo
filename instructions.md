@@ -32,7 +32,7 @@ cd ../remote-angular-app && npm install papaparse @types/papaparse
     Update the vite.config.ts for remote react app
     Update the vite.config.ts for main app
     cd ../remote-angular-app && ng add @angular-architects/module-federation --project remote-angular-app --port 4200
-    (using webpack)
+    (using webpack this time)
     Configure the webpack.config.js file for the Angular app to expose our CSV viewer component:
 
 8. fix the linter errors by installing the necessary type definitions:
@@ -46,14 +46,23 @@ For the Remote React App:
    cd remote-react-app
    npm install
    npm run build  # Important: Build first
-   npm run dev
+   npm run preview # 
 For the Remote Angular App:
    cd remote-angular-app
    npm install
-   npm run build  # Important: Build first
    npm start
 For the Main App:
    cd main-app
    npm install
    npm run dev
 
+Notes:
+1. The federation plugin generates the remoteEntry.js file during the build process, not in development mode.
+2. To access this file, you need to:
+   - First build your application
+   - Then serve the built files
+   Then, serve the built files (you can use vite preview or any static file server):
+
+```bash
+npm run preview
+```
