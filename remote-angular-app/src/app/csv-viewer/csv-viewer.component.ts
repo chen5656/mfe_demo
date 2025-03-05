@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { Component, ElementRef, ViewChild, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as Papa from 'papaparse';
 import { createApplication } from '@angular/platform-browser';
@@ -16,7 +16,7 @@ interface CsvData {
   standalone: true,
   imports: [CommonModule]
 })
-export class CsvViewerComponent {
+export class CsvViewerComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput!: ElementRef;
   
   csvData: CsvData | null = null;
@@ -57,6 +57,25 @@ export class CsvViewerComponent {
       header: false,
     });
   }
+
+  selectedRow: number | null = null;
+
+  ngOnInit() {
+    window.addEventListener('rowSelected', this.handleRowSelected as EventListener);
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('rowSelected', this.handleRowSelected as EventListener);
+  }
+
+  private handleRowSelected = (event: CustomEvent) => {
+    const { rowIndex, target } = event.detail;
+    if (target === 'angular') {
+      this.ngZone.run(() => {
+        this.selectedRow = rowIndex;
+      });
+    }
+  };
 }
 
 // Add static mount method for Module Federation

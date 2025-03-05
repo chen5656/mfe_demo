@@ -10,7 +10,23 @@ interface CsvData {
 const CsvViewer = () => {
   const [csvData, setCsvData] = useState<CsvData | null>(null);
   const [fileName, setFileName] = useState<string>('');
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Add event listener for row selection
+  useEffect(() => {
+    const handleRowSelected = (event: CustomEvent) => {
+      const { rowIndex, target } = event.detail;
+      if (target === 'react') {
+        setSelectedRow(rowIndex);
+      }
+    };
+
+    window.addEventListener('rowSelected', handleRowSelected as EventListener);
+    return () => {
+      window.removeEventListener('rowSelected', handleRowSelected as EventListener);
+    };
+  }, []);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -68,27 +84,11 @@ const CsvViewer = () => {
 
       {csvData && (
         <div className="csv-preview">
-          {/* <h3>Preview:</h3>
-          <table>
-            <thead>
-              <tr>
-                {csvData.headers.map((header, index) => (
-                  <th key={index}>{header}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {csvData.data.slice(0, 5).map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
-          {csvData.data.length > 5 && (
-            <p>CSV data length: {csvData.data.length} </p>
+          {csvData.data.length > 0 && (
+            <p>CSV data length: {csvData.data.length}</p>
+          )}
+          {selectedRow !== null && csvData.data[selectedRow] && (
+            <p>Selected {selectedRow + 1} row, values are: {csvData.data[selectedRow].join(', ')}</p>
           )}
         </div>
       )}

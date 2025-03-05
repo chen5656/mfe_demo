@@ -15,6 +15,7 @@
     </div>
   
     <div class="csv-preview" *ngIf="csvData">
-      <p *ngIf="csvData.data.length > 5">CSV data length: {{ csvData.data.length }} </p>
+      <p *ngIf="csvData.data.length > 0">CSV data length: {{ csvData.data.length }} </p>
+      <p *ngIf="selectedRow !== null">selected {{ selectedRow + 1 }} row, values are: {{ csvData.data[selectedRow].join(', ') }}</p>
     </div>
   </div>
