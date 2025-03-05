@@ -64,5 +64,5 @@ Notes:
    Then, serve the built files (you can use vite preview or any static file server):
 
 ```bash
-npm run preview
+npm run build && npm run preview
 ```
