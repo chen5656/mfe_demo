@@ -1,9 +1,9 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import './App.css'
 import TabView from './components/TabView'
 
 // Lazy load the remote components
-const ReactCsvViewer = lazy(() => import('remote-react-app/CsvViewer'));
+const RemoteReactCsvViewer = lazy(() => import('remote-react-app/CsvViewer'));
 // Angular component will be accessed through window object
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <div className="remote-app react-app">
             <h2>React Remote App</h2>
             <Suspense fallback={<div>Loading React Component...</div>}>
-              <ReactCsvViewer />
+              <RemoteReactCsvViewer />
             </Suspense>
           </div>
           
