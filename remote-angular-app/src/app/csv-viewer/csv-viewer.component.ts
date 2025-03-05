@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as Papa from 'papaparse';
+import { createApplication } from '@angular/platform-browser';
+import 'zone.js';
 
 interface CsvData {
   data: string[][];
@@ -58,3 +60,19 @@ export class CsvViewerComponent {
     });
   }
 }
+
+// Add static mount method for Module Federation
+export const mount = async (element: HTMLElement) => {
+  const app = await createApplication({
+    providers: []
+  });
+  
+  const componentRef = app.bootstrap(CsvViewerComponent, element);
+  
+  return () => {
+    componentRef.destroy();
+    app.destroy();
+  };
+};
+
+export default { mount };
