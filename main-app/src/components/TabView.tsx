@@ -12,6 +12,7 @@ const TabView = () => {
   const [activeTab, setActiveTab] = useState<string>('react');
   const [reactCsvData, setReactCsvData] = useState<CsvDataType | null>(null);
   const [angularCsvData, setAngularCsvData] = useState<CsvDataType | null>(null);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handleCsvData = (event: CustomEvent) => {
@@ -31,6 +32,16 @@ const TabView = () => {
     };
   }, []);
 
+  const handleRowClick = (rowIndex: number) => {
+    setSelectedRowIndex(rowIndex);
+    window.dispatchEvent(new CustomEvent('rowSelected', {
+      detail: {
+        rowIndex,
+        target: activeTab
+      }
+    }));
+  };
+
   const renderCsvTable = (csvData: CsvDataType | null) => {
     if (!csvData) {
       return <p>No data available. Please upload a CSV file in the remote app.</p>;
@@ -49,7 +60,14 @@ const TabView = () => {
           </thead>
           <tbody>
             {csvData.data.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <tr 
+                key={rowIndex}
+                onClick={() => handleRowClick(rowIndex)}
+                style={{ 
+                  cursor: 'pointer',
+                  backgroundColor: selectedRowIndex === rowIndex ? '#e6f3ff' : undefined 
+                }}
+              >
                 {row.map((cell, cellIndex) => (
                   <td key={cellIndex}>{cell}</td>
                 ))}
