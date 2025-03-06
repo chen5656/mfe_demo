@@ -15,7 +15,19 @@
     </div>
   
     <div class="csv-preview" *ngIf="csvData">
-      <p *ngIf="csvData.data.length > 0">CSV data length: {{ csvData.data.length }} </p>
-      <p *ngIf="selectedRow !== null">selected {{ selectedRow + 1 }} row, values are: {{ csvData.data[selectedRow].join(', ') }}</p>
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let header of csvData.headers; let i = index">{{ header }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of csvData.data; let rowIndex = index"
+              [class.selected]="selectedRow === rowIndex">
+            <td *ngFor="let cell of row">{{ cell }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="selectedRow !== null">Selected {{ selectedRow + 1 }} row, values are: {{ csvData.data[selectedRow].join(', ') }}</p>
     </div>
-  </div>
+</div>

@@ -83,9 +83,31 @@ const CsvViewer = () => {
       </div>
 
       {csvData && (
-        <div className="csv-preview">
+        <div className={styles.csvPreview}>
           {csvData.data.length > 0 && (
-            <p>CSV data length: {csvData.data.length}</p>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  {csvData.headers.map((header, index) => (
+                    <th key={index}>{header}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {csvData.data.map((row, index) => (
+                  <tr 
+                    key={index}
+                    style={{ 
+                      backgroundColor: selectedRow === index ? '#e6f3ff' : undefined 
+                    }}
+                  >
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
           {selectedRow !== null && csvData.data[selectedRow] && (
             <p>Selected {selectedRow + 1} row, values are: {csvData.data[selectedRow].join(', ')}</p>
