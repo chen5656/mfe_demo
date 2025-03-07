@@ -39,7 +39,7 @@ You need to start all three applications to see the full demo:
 cd remote-react-app
 npm install
 npm run build  # Important: Build first for Module Federation to work
-npm run dev
+npm run preview
 ```
 
 The React remote app will be available at http://localhost:5001
@@ -49,7 +49,6 @@ The React remote app will be available at http://localhost:5001
 ```bash
 cd remote-angular-app
 npm install
-npm run build  # Important: Build first for Module Federation to work
 npm start
 ```
 
